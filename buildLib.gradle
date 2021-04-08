@@ -1,7 +1,6 @@
-apply {
-    plugin "com.android.library"
-    plugin "kotlin-android"
-    plugin "kotlin-android-extensions"
+plugins {
+    id "com.android.library"
+    id "kotlin-android"
 }
 
 android {
@@ -9,8 +8,11 @@ android {
 
     defaultConfig {
         minSdkVersion Config.minSdkVersion
+        targetSdkVersion Config.targetSdkVersion
         versionCode Config.versionCode
         versionName Config.versionName
+
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -19,8 +21,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
-    lintOptions {
-        abortOnError false
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
     }
 }

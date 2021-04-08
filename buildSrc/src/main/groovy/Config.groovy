@@ -9,31 +9,17 @@ class Config {
     static versionCode = 1_000_000
     static versionName = '1.0.0'
 
-    static kotlin_version = '1.3.10'
-    static support_version = '27.1.1'
-    static leakcanary_version = '1.6.3'
+    static kotlin_version = '1.4.32'
 
     static depConfig = [
-            plugin       : [
-                    gradle: "com.android.tools.build:gradle:3.3.0",
-                    kotlin: "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version",
+            kotlin  : "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version",
+            material: "com.google.android.material:material:1.2.1",
+            support : [
+                    core_ktx  : "androidx.core:core-ktx:1.3.2",
+                    appcompat: "androidx.appcompat:appcompat:1.2.0",
             ],
-            support      : [
-                    appcompat_v7: "com.android.support:appcompat-v7:$support_version",
-                    design      : "com.android.support:design:$support_version",
-                    multidex    : "com.android.support:multidex:1.0.2",
-                    constraint  : "com.android.support.constraint:constraint-layout:1.1.3",
-            ],
-            kotlin       : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
-            utilcode     : "com.blankj:utilcode:1.25.0",
-            free_proguard: "com.blankj:free-proguard:1.0.1",
-            swipe_panel  : "com.blankj:swipe-panel:1.1",
+            utilcode: "com.blankj:utilcodex:1.30.5",
 
-            leakcanary   : [
-                    android         : "com.squareup.leakcanary:leakcanary-android:$leakcanary_version",
-                    android_no_op   : "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanary_version",
-                    support_fragment: "com.squareup.leakcanary:leakcanary-support-fragment:$leakcanary_version",
-            ],
     ]
 
 }
