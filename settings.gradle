@@ -1,3 +1,5 @@
+include ':feature:feature1:export'
+include ':feature:feature0:export'
 include ':lib:common'
 include ':lib:base'
 include ':app'
