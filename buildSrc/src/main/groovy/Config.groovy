@@ -12,7 +12,7 @@ class Config {
     static kotlin_version = '1.4.32'
     static leakcanary_version = '1.6.3'
 
-    static depConfig = [
+    /*static depConfig = [
             androidx     : [
                     core_ktx        : "androidx.core:core-ktx:1.3.2",
                     appcompat       : "androidx.appcompat:appcompat:1.2.0",
@@ -31,7 +31,7 @@ class Config {
             free_proguard: "com.blankj:free-proguard:1.0.1",
             // 侧边返回
             swipe_panel  : "com.blankj:swipe-panel:1.1",
-    ]
+    ]*/
 
     // =============================================================================================
     // 新的方式
@@ -41,7 +41,7 @@ class Config {
     static appConfig = ['launcher', 'feature0']
     // pkgConfig 配置的是要依赖的功能包，为空则依赖全部，git 提交务必为空
     static pkgConfig = ['feature0']
-    static _depConfig = [
+    static depConfig = [
             feature      : [
                     launcher: [
                             app: new DepConfig(":feature:launcher:app"),

@@ -61,7 +61,7 @@ class ConfigUtils {
             void projectsLoaded(Gradle gradle) {
                 GLog.d("projectsLoaded")
 
-                //generateDep(gradle)
+                generateDep(gradle)
 
                 gradle.addProjectEvaluationListener(new ProjectEvaluationListener() {
                     /**
@@ -134,12 +134,11 @@ class ConfigUtils {
         include ':lib:base'
          */
 
-        settings.include ':lib:base', ':lib:common',
+        /*settings.include ':lib:base', ':lib:common',
                 ':feature:feature0:export', ':feature:feature1:export',
                 ':feature:feature0:pkg', ':feature:feature1:pkg',
-                ':feature:feature0:app', ':feature:feature1:app', ':feature:launcher:app'
+                ':feature:feature0:app', ':feature:feature1:app', ':feature:launcher:app'*/
 
-        /*
         def config = getDepConfigByFilter(new DepConfigFilter() {
             @Override
             boolean accept(String name, DepConfig config) {
@@ -175,7 +174,6 @@ class ConfigUtils {
             settings.include cfg.localPath
         }
         GLog.l("includeModule = ${GLog.object2String(config)}")
-         */
     }
 
     /**
@@ -196,34 +194,6 @@ class ConfigUtils {
             }
         })
         GLog.l("generateDep = ${GLog.object2String(config)}")
-    }
-
-    // =============================================================================================
-    // 获取可用的 pkg 和 export
-    // =============================================================================================
-
-    static getApplyPkgs() {
-        def applyPkgs = getDepConfigByFilter(new DepConfigFilter() {
-            @Override
-            boolean accept(String name, DepConfig config) {
-                if (!config.isApply) return false
-                return name.endsWith(".pkg")
-            }
-        })
-        GLog.d("getApplyPkgs = ${GLog.object2String(applyPkgs)}")
-        return applyPkgs
-    }
-
-    static getApplyExports() {
-        def applyExports = getDepConfigByFilter(new DepConfigFilter() {
-            @Override
-            boolean accept(String name, DepConfig config) {
-                if (!config.isApply) return false
-                return name.endsWith(".export")
-            }
-        })
-        GLog.d("getApplyExports = ${GLog.object2String(applyExports)}")
-        return applyExports
     }
 
     // =============================================================================================
@@ -260,6 +230,34 @@ class ConfigUtils {
 
     interface DepConfigFilter {
         boolean accept(String name, DepConfig config);
+    }
+
+    // =============================================================================================
+    // 获取可用的 pkg 和 export
+    // =============================================================================================
+
+    static getApplyPkgs() {
+        def applyPkgs = getDepConfigByFilter(new DepConfigFilter() {
+            @Override
+            boolean accept(String name, DepConfig config) {
+                if (!config.isApply) return false
+                return name.endsWith(".pkg")
+            }
+        })
+        GLog.d("getApplyPkgs = ${GLog.object2String(applyPkgs)}")
+        return applyPkgs
+    }
+
+    static getApplyExports() {
+        def applyExports = getDepConfigByFilter(new DepConfigFilter() {
+            @Override
+            boolean accept(String name, DepConfig config) {
+                if (!config.isApply) return false
+                return name.endsWith(".export")
+            }
+        })
+        GLog.d("getApplyExports = ${GLog.object2String(applyExports)}")
+        return applyExports
     }
 
 }

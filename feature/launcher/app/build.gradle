@@ -1,4 +1,4 @@
-dependencies {
-    api project(":feature:feature0:pkg")
-    api project(":feature:feature1:pkg")
-}
+//dependencies {
+//    api project(":feature:feature0:pkg")
+//    api project(":feature:feature1:pkg")
+//}
