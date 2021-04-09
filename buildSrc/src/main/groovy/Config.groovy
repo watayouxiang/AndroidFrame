@@ -14,12 +14,14 @@ class Config {
     static depConfig = [
             kotlin  : "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version",
             material: "com.google.android.material:material:1.2.1",
-            support : [
-                    core_ktx  : "androidx.core:core-ktx:1.3.2",
+            androidx: [
+                    core_ktx : "androidx.core:core-ktx:1.3.2",
                     appcompat: "androidx.appcompat:appcompat:1.2.0",
+                    multidex : "androidx.multidex:multidex:2.0.0",
             ],
             utilcode: "com.blankj:utilcodex:1.30.5",
-
+            // 混淆
+            free_proguard: "com.blankj:free-proguard:1.0.1",
     ]
 
 }
