@@ -7,8 +7,10 @@ dependencies {
     api Config.depConfig.androidx.core_ktx
     api Config.depConfig.androidx.appcompat
     api Config.depConfig.androidx.multidex
+    api Config.depConfig.androidx.constraintlayout
     api Config.depConfig.material
 
     api Config.depConfig.utilcode
     api Config.depConfig.free_proguard
+    api Config.depConfig.swipe_panel
 }

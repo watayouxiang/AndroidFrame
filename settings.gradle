@@ -1,3 +1,5 @@
+include ':feature:feature1:pkg'
+include ':feature:feature0:pkg'
 include ':feature:feature1:export'
 include ':feature:feature0:export'
 include ':lib:common'
