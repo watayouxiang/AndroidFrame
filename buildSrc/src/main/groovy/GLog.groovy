@@ -8,7 +8,7 @@
  */
 class GLog {
 
-    def static debugSwitch = true
+    def static debugSwitch = false
 
     static d(Object... contents) {
         if (!debugSwitch) return contents

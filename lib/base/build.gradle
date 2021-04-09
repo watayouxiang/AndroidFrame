@@ -1,7 +1,3 @@
-apply {
-    from "${project.rootDir.path}/buildLib.gradle"
-}
-
 dependencies {
     api Config.depConfig.kotlin
     api Config.depConfig.androidx.core_ktx
