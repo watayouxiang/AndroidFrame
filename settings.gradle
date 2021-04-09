@@ -2,14 +2,4 @@ GLog.d("setting.gradle")
 
 ConfigUtils.addBuildListener(gradle)
 
-include ':feature:launcher:app'
-include ':feature:feature1:app'
-include ':feature:feature0:app'
-include ':feature:feature1:pkg'
-include ':feature:feature0:pkg'
-include ':feature:feature1:export'
-include ':feature:feature0:export'
-include ':lib:common'
-include ':lib:base'
-
 rootProject.name = "AndroidFrame"

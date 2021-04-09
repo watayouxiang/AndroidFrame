@@ -47,6 +47,7 @@ class ConfigUtils {
             @Override
             void settingsEvaluated(Settings settings) {
                 GLog.d("settingsEvaluated")
+                includeModule(settings)
             }
 
             /**
@@ -77,4 +78,23 @@ class ConfigUtils {
             }
         })
     }
+
+    /*
+    include ':feature:launcher:app'
+    include ':feature:feature1:app'
+    include ':feature:feature0:app'
+    include ':feature:feature1:pkg'
+    include ':feature:feature0:pkg'
+    include ':feature:feature1:export'
+    include ':feature:feature0:export'
+    include ':lib:common'
+    include ':lib:base'
+     */
+    private static includeModule(Settings settings) {
+        settings.include ':lib:base', ':lib:common',
+                ':feature:feature0:export', ':feature:feature1:export',
+                ':feature:feature0:pkg', ':feature:feature1:pkg',
+                ':feature:feature0:app', ':feature:feature1:app', ':feature:launcher:app'
+    }
+
 }
