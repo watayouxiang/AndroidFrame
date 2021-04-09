@@ -1,3 +1,4 @@
+include ':feature:launcher:app'
 include ':feature:feature1:app'
 include ':feature:feature0:app'
 include ':feature:feature1:pkg'
