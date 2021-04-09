@@ -62,6 +62,7 @@ dependencies {
     debugImplementation Config.depConfig.leakcanary.support_fragment.dep
     releaseImplementation Config.depConfig.leakcanary.android_no_op.dep
 
+    // app 只依赖 pkg
     // 根据 Config.pkgConfig 来依赖所有 pkg
     for (def entrySet : ConfigUtils.getApplyPkgs().entrySet()) {
         api entrySet.value.dep

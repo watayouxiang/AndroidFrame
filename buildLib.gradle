@@ -38,11 +38,13 @@ android {
 
 dependencies {
     if (project.name == 'pkg') {
+        // pkg 只依赖 export
         // if module's name equals 'pkg', api all of export
         for (def entrySet : ConfigUtils.getApplyExports().entrySet()) {
             api entrySet.value.dep
         }
     } else if (project.name == 'export') {
+        // export 只依赖 common
         api Config.depConfig.lib.common.dep
     }
 }
