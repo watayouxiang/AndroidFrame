@@ -8,6 +8,9 @@ import org.gradle.api.invocation.Gradle
 
 class ConfigUtils {
 
+    // =============================================================================================
+    // hook 方式构建项目
+    // =============================================================================================
 
     static addBuildListener(Gradle g) {
         /*
@@ -233,7 +236,7 @@ class ConfigUtils {
     }
 
     // =============================================================================================
-    // 获取可用的 pkg 和 export
+    // 外部调用
     // =============================================================================================
 
     static getApplyPkgs() {
@@ -258,6 +261,19 @@ class ConfigUtils {
         })
         GLog.d("getApplyExports = ${GLog.object2String(applyExports)}")
         return applyExports
+    }
+
+    static getApplyPlugins() {
+        def plugins = getDepConfigByFilter(new DepConfigFilter() {
+            @Override
+            boolean accept(String name, DepConfig config) {
+                if (!name.startsWith("plugin.")) return false
+                if (!config.isApply) return false
+                return true
+            }
+        })
+        GLog.d("getApplyPlugins = ${GLog.object2String(plugins)}")
+        return plugins
     }
 
 }

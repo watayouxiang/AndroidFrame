@@ -42,6 +42,18 @@ class Config {
     // pkgConfig 配置的是要依赖的功能包，为空则依赖全部，git 提交务必为空
     static pkgConfig = ['feature0']
     static depConfig = [
+            // ====================
+            // plugin
+            // ====================
+            plugin       : [
+                    gradle: new DepConfig("com.android.tools.build:gradle:3.6.4"),
+                    kotlin: new DepConfig("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"),
+                    api   : new DepConfig("com.blankj:api-gradle-plugin:1.2"),
+            ],
+
+            // ====================
+            // feature
+            // ====================
             feature      : [
                     launcher: [
                             app: new DepConfig(":feature:launcher:app"),
@@ -57,10 +69,18 @@ class Config {
                             export: new DepConfig(":feature:feature1:export"),
                     ],
             ],
+
+            // ====================
+            // lib
+            // ====================
             lib          : [
                     base  : new DepConfig(":lib:base"),
                     common: new DepConfig(":lib:common"),
             ],
+
+            // ====================
+            // dependencies
+            // ====================
             androidx     : [
                     core_ktx        : new DepConfig("androidx.core:core-ktx:1.3.2"),
                     appcompat       : new DepConfig("androidx.appcompat:appcompat:1.2.0"),
@@ -79,6 +99,5 @@ class Config {
             free_proguard: new DepConfig("com.blankj:free-proguard:1.0.1"),
             // 侧边返回
             swipe_panel  : new DepConfig("com.blankj:swipe-panel:1.1"),
-
     ]
 }
