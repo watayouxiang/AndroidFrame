@@ -1,6 +1,6 @@
 class Config {
 
-    static applicationId = 'com.watayouxiang.myapplication'
+    static applicationId = 'com.watayouxiang.androidframe'
     static appName = 'AndroidFrame'
 
     static compileSdkVersion = 30
@@ -38,9 +38,9 @@ class Config {
     // =============================================================================================
 
     // appConfig 配置的是可以跑 app 的模块，git 提交务必只包含 launcher
-    static appConfig = ['launcher']
+    static appConfig = ['launcher', 'feature0', 'feature1']
     // pkgConfig 配置的是要依赖的功能包，为空则依赖全部，git 提交务必为空
-    static pkgConfig = ['feature0']
+    static pkgConfig = []
     static depConfig = [
             // ====================
             // plugin

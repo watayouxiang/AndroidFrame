@@ -11,6 +11,9 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.watayouxiang.common.CommonTitleActivity;
 import com.watayouxiang.feature0.pkg.BusConifg;
 import com.watayouxiang.feature0.pkg.R;
+import com.watayouxiang.feature1.export.api.Feature1Api;
+import com.watayouxiang.feature1.export.bean.Feature1Param;
+import com.watayouxiang.feature1.export.bean.Feature1Result;
 
 
 public class Feature0Activity extends CommonTitleActivity {
@@ -37,14 +40,14 @@ public class Feature0Activity extends CommonTitleActivity {
 
     @Override
     public void initView(@Nullable Bundle savedInstanceState, @Nullable View contentView) {
-//        findViewById(R.id.startFeature1Btn).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Feature1Result result = ApiUtils.getApi(Feature1Api.class)
-//                        .startFeature1Activity(com.blankj.feature0.pkg.main.Feature0Activity.this, new Feature1Param("Feature1Param"));
-//                ToastUtils.showLong(result.getName());
-//            }
-//        });
+        findViewById(R.id.startFeature1Btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Feature1Result result = ApiUtils.getApi(Feature1Api.class)
+                        .startFeature1Activity(Feature0Activity.this, new Feature1Param("Feature1Param"));
+                ToastUtils.showLong(result.getName());
+            }
+        });
         BusUtils.register(this);
         findViewById(R.id.showBusToast).setOnClickListener(new View.OnClickListener() {
             @Override
