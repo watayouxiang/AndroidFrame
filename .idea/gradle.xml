@@ -18,9 +18,9 @@
             <option value="$PROJECT_DIR$/feature/feature0/pkg" />
             <option value="$PROJECT_DIR$/feature/feature1" />
             <option value="$PROJECT_DIR$/feature/feature1/export" />
+            <option value="$PROJECT_DIR$/feature/feature1/pkg" />
             <option value="$PROJECT_DIR$/feature/launcher" />
             <option value="$PROJECT_DIR$/feature/launcher/app" />
-            <option value="$PROJECT_DIR$/feature/mock" />
             <option value="$PROJECT_DIR$/lib" />
             <option value="$PROJECT_DIR$/lib/base" />
             <option value="$PROJECT_DIR$/lib/common" />
