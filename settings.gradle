@@ -1,4 +1,4 @@
-GLog.d("setting.gradle")
+//GLog.d("setting.gradle")
 
 rootProject.name = "AndroidFrame"
 
@@ -43,7 +43,7 @@ for (def pro in config.proConfig) {
 }
 
 // =============================================================================================
-// 生成配置代码
+// 在Config.groovy 中生成配置代码
 // =============================================================================================
 
 def ls = System.getProperty("line.separator")

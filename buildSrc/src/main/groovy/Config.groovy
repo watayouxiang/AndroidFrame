@@ -140,7 +140,7 @@ class Config {
             lib_common                 : new DepConfig(true, true, ":lib:common"),
             /*Never delete this line*/
 
-            plugin_gradle              : new DepConfig(pluginPath: "com.android.tools.build:gradle:3.6.4"),
+            plugin_gradle              : new DepConfig(pluginPath: "com.android.tools.build:gradle:4.1.2"),
             plugin_kotlin              : new DepConfig(pluginPath: "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"),
             plugin_api                 : new DepConfig(pluginPath: "com.blankj:api-gradle-plugin:1.2", pluginId: "com.blankj.api"),
             plugin_bus                 : new DepConfig(pluginPath: "com.blankj:bus-gradle-plugin:2.4", pluginId: "com.blankj.bus"),
