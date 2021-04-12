@@ -122,6 +122,10 @@ class ConfigUtils {
         })
     }
 
+    // =============================================================================================
+    // include module
+    // =============================================================================================
+
     /**
      * 在 settings.gradle 中 根据 appConfig 和 pkgConfig 来 include 本地模块
      */
@@ -181,6 +185,42 @@ class ConfigUtils {
         }
         GLog.l("includeModule = ${GLog.object2String(config)}")
     }
+
+    /**
+     * 根据过滤器来获取 DepConfig
+     */
+    static Map<String, DepConfig> getDepConfigByFilter(DepConfigFilter filter) {
+        return _getDepConfigByFilter("", Config.depConfig, filter)
+    }
+
+    private static _getDepConfigByFilter(String namePrefix, Map map, DepConfigFilter filter) {
+        // 结果 Map
+        def depConfigList = [:]
+        for (Map.Entry entry : map.entrySet()) {
+            def (name, value) = [entry.getKey(), entry.getValue()]
+            if (value instanceof Map) {
+                // 如果值是 Map 类型就加到结果 Map 中
+                namePrefix += (name + '.')
+                depConfigList.putAll(_getDepConfigByFilter(namePrefix, value, filter))
+                namePrefix -= (name + '.')
+                continue
+            }
+            def config = value as DepConfig
+            if (filter == null || filter.accept(namePrefix + name, config)) {
+                // 符合过滤条件就加到结果 Map 中
+                depConfigList.put(namePrefix + name, config)
+            }
+        }
+        return depConfigList
+    }
+
+    interface DepConfigFilter {
+        boolean accept(String name, DepConfig config);
+    }
+
+    // =============================================================================================
+    // 生成 DepConfig 的 dep
+    // =============================================================================================
 
     /**
      * 根据 depConfig 生成 dep
@@ -284,42 +324,6 @@ class ConfigUtils {
         }
         GLog.d("getApplyPlugins = ${GLog.object2String(plugins)}")
         return plugins
-    }
-
-    // =============================================================================================
-    // 获取 DepConfig
-    // =============================================================================================
-
-    /**
-     * 根据过滤器来获取 DepConfig
-     */
-    static Map<String, DepConfig> getDepConfigByFilter(DepConfigFilter filter) {
-        return _getDepConfigByFilter("", Config.depConfig, filter)
-    }
-
-    private static _getDepConfigByFilter(String namePrefix, Map map, DepConfigFilter filter) {
-        // 结果 Map
-        def depConfigList = [:]
-        for (Map.Entry entry : map.entrySet()) {
-            def (name, value) = [entry.getKey(), entry.getValue()]
-            if (value instanceof Map) {
-                // 如果值是 Map 类型就加到结果 Map 中
-                namePrefix += (name + '.')
-                depConfigList.putAll(_getDepConfigByFilter(namePrefix, value, filter))
-                namePrefix -= (name + '.')
-                continue
-            }
-            def config = value as DepConfig
-            if (filter == null || filter.accept(namePrefix + name, config)) {
-                // 符合过滤条件就加到结果 Map 中
-                depConfigList.put(namePrefix + name, config)
-            }
-        }
-        return depConfigList
-    }
-
-    interface DepConfigFilter {
-        boolean accept(String name, DepConfig config);
     }
 
 }
