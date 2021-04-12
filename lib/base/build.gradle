@@ -1,9 +1,9 @@
 dependencies {
     api Config.depConfig.kotlin.dep
-    api Config.depConfig.androidx.core_ktx.dep
-    api Config.depConfig.androidx.appcompat.dep
-    api Config.depConfig.androidx.multidex.dep
-    api Config.depConfig.androidx.constraintlayout.dep
+    api Config.depConfig.androidx_core_ktx.dep
+    api Config.depConfig.androidx_appcompat.dep
+    api Config.depConfig.androidx_multidex.dep
+    api Config.depConfig.androidx_constraintlayout.dep
     api Config.depConfig.material.dep
 
     api Config.depConfig.utilcode.dep

@@ -14,8 +14,8 @@ class ConfigUtils {
 
     static addBuildListener(Gradle g) {
         TaskDurationUtils.init(g)
-        /*
-        setting.gradle
+
+        /*setting.gradle
         // 设置配置完成
         settingsEvaluated
         // 项目加载完成
@@ -35,8 +35,8 @@ class ConfigUtils {
         // 项目评估完成
         projectsEvaluated
         // 构建结束
-        buildFinished
-         */
+        buildFinished*/
+
         g.addBuildListener(new BuildListener() {
             /**
              * 构建开始
@@ -186,7 +186,7 @@ class ConfigUtils {
      * 根据 depConfig 生成 dep
      */
     private static generateDep(Gradle gradle) {
-        def config = getDepConfigByFilter(new DepConfigFilter() {
+        /*def config = getDepConfigByFilter(new DepConfigFilter() {
             @Override
             boolean accept(String name, DepConfig config) {
                 if (config.useLocal) {
@@ -199,7 +199,23 @@ class ConfigUtils {
                 return true
             }
         })
-        GLog.l("generateDep = ${GLog.object2String(config)}")
+        GLog.l("generateDep = ${GLog.object2String(config)}")*/
+
+        def configs = [:]
+        for (Map.Entry<String, DepConfig> entry : Config.depConfig.entrySet()) {
+            def (name, config) = [entry.key, entry.value]
+            if (name.startsWith("plugin_")) {
+                config.dep = config.pluginPath
+            } else {
+                if (config.useLocal) {
+                    config.dep = gradle.rootProject.findProject(config.localPath)
+                } else {
+                    config.dep = config.remotePath
+                }
+            }
+            configs.put(name, config)
+        }
+        GLog.l("generateDep = ${GLog.object2String(configs)}")
     }
 
     // =============================================================================================
@@ -243,7 +259,7 @@ class ConfigUtils {
     // =============================================================================================
 
     static getApplyPkgs() {
-        def applyPkgs = getDepConfigByFilter(new DepConfigFilter() {
+        /*def applyPkgs = getDepConfigByFilter(new DepConfigFilter() {
             @Override
             boolean accept(String name, DepConfig config) {
                 if (!config.isApply) return false
@@ -251,11 +267,20 @@ class ConfigUtils {
             }
         })
         GLog.d("getApplyPkgs = ${GLog.object2String(applyPkgs)}")
-        return applyPkgs
+        return applyPkgs*/
+
+        def pkgs = [:]
+        for (Map.Entry<String, DepConfig> entry : Config.depConfig.entrySet()) {
+            if (entry.value.isApply && entry.key.endsWith("_pkg")) {
+                pkgs.put(entry.key, entry.value)
+            }
+        }
+        GLog.d("getApplyPkgs = ${GLog.object2String(pkgs)}")
+        return pkgs
     }
 
     static getApplyExports() {
-        def applyExports = getDepConfigByFilter(new DepConfigFilter() {
+        /*def applyExports = getDepConfigByFilter(new DepConfigFilter() {
             @Override
             boolean accept(String name, DepConfig config) {
                 if (!config.isApply) return false
@@ -263,11 +288,20 @@ class ConfigUtils {
             }
         })
         GLog.d("getApplyExports = ${GLog.object2String(applyExports)}")
-        return applyExports
+        return applyExports*/
+
+        def exports = [:]
+        for (Map.Entry<String, DepConfig> entry : Config.depConfig.entrySet()) {
+            if (entry.value.isApply && entry.key.endsWith("_export")) {
+                exports.put(entry.key, entry.value)
+            }
+        }
+        GLog.d("getApplyExports = ${GLog.object2String(exports)}")
+        return exports
     }
 
     static getApplyPlugins() {
-        def plugins = getDepConfigByFilter(new DepConfigFilter() {
+        /*def plugins = getDepConfigByFilter(new DepConfigFilter() {
             @Override
             boolean accept(String name, DepConfig config) {
                 if (!name.startsWith("plugin.")) return false
@@ -275,6 +309,15 @@ class ConfigUtils {
                 return true
             }
         })
+        GLog.d("getApplyPlugins = ${GLog.object2String(plugins)}")
+        return plugins*/
+
+        def plugins = [:]
+        for (Map.Entry<String, DepConfig> entry : Config.depConfig.entrySet()) {
+            if (entry.value.isApply && entry.key.startsWith("plugin_")) {
+                plugins.put(entry.key, entry.value)
+            }
+        }
         GLog.d("getApplyPlugins = ${GLog.object2String(plugins)}")
         return plugins
     }

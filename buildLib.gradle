@@ -44,6 +44,6 @@ dependencies {
         }
     } else if (project.name == 'export') {
         // export 只依赖 common
-        api Config.depConfig.lib.common.dep
+        api Config.depConfig.lib_common.dep
     }
 }
