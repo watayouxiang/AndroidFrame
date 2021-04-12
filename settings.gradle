@@ -1,5 +1,6 @@
 GLog.d("setting.gradle")
 
+// 注意：Gradle 6.0 版本 settings.gradle 运行的时机早于 buildSrc
 ConfigUtils.addBuildListener(gradle)
 
 rootProject.name = "AndroidFrame"
