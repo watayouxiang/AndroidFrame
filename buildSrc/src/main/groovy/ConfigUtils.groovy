@@ -143,15 +143,15 @@ class ConfigUtils {
 
         // 是否应用 mock 的判断
         if (Config.pkgConfig.isEmpty()) {
-            Config.depConfig.feature.mock.isApply = false
+            Config.depConfig.feature_mock.isApply = false
         }
         def config = getDepConfigByFilter(new DepConfigFilter() {
             @Override
             boolean accept(String name, DepConfig config) {
                 // 如果最终是 app 的话
-                if (name.endsWith('.app')) {
+                if (name.endsWith('_app')) {
                     // 获取 app 模块的名字
-                    def appName = name.substring('feature.'.length(), name.length() - 4)
+                    def appName = name.substring('feature_'.length(), name.length() - 4)
                     // 如果 Config.appConfig 中不存在，那就不让它进依赖
                     if (!Config.appConfig.contains(appName)) {
                         config.isApply = false
@@ -160,9 +160,9 @@ class ConfigUtils {
                 // 如果 Config.pkgConfig 不为空，说明是 pkg 调试模式
                 if (!Config.pkgConfig.isEmpty()) {
                     // 如果是 pkg 的话
-                    if (name.endsWith('.pkg')) {
+                    if (name.endsWith('_pkg')) {
                         // 获取 pkg 模块的名字
-                        def pkgName = name.substring('feature.'.length(), name.length() - 4)
+                        def pkgName = name.substring('feature_'.length(), name.length() - 4)
                         // 如果 Config.pkgConfig 中不存在，那就不让它进依赖
                         if (!Config.pkgConfig.contains(pkgName)) {
                             config.isApply = false
@@ -216,42 +216,6 @@ class ConfigUtils {
             configs.put(name, config)
         }
         GLog.l("generateDep = ${GLog.object2String(configs)}")
-    }
-
-    // =============================================================================================
-    // 获取 DepConfig
-    // =============================================================================================
-
-    /**
-     * 根据过滤器来获取 DepConfig
-     */
-    static Map<String, DepConfig> getDepConfigByFilter(DepConfigFilter filter) {
-        return _getDepConfigByFilter("", Config.depConfig, filter)
-    }
-
-    private static _getDepConfigByFilter(String namePrefix, Map map, DepConfigFilter filter) {
-        // 结果 Map
-        def depConfigList = [:]
-        for (Map.Entry entry : map.entrySet()) {
-            def (name, value) = [entry.getKey(), entry.getValue()]
-            if (value instanceof Map) {
-                // 如果值是 Map 类型就加到结果 Map 中
-                namePrefix += (name + '.')
-                depConfigList.putAll(_getDepConfigByFilter(namePrefix, value, filter))
-                namePrefix -= (name + '.')
-                continue
-            }
-            def config = value as DepConfig
-            if (filter == null || filter.accept(namePrefix + name, config)) {
-                // 符合过滤条件就加到结果 Map 中
-                depConfigList.put(namePrefix + name, config)
-            }
-        }
-        return depConfigList
-    }
-
-    interface DepConfigFilter {
-        boolean accept(String name, DepConfig config);
     }
 
     // =============================================================================================
@@ -320,6 +284,42 @@ class ConfigUtils {
         }
         GLog.d("getApplyPlugins = ${GLog.object2String(plugins)}")
         return plugins
+    }
+
+    // =============================================================================================
+    // 获取 DepConfig
+    // =============================================================================================
+
+    /**
+     * 根据过滤器来获取 DepConfig
+     */
+    static Map<String, DepConfig> getDepConfigByFilter(DepConfigFilter filter) {
+        return _getDepConfigByFilter("", Config.depConfig, filter)
+    }
+
+    private static _getDepConfigByFilter(String namePrefix, Map map, DepConfigFilter filter) {
+        // 结果 Map
+        def depConfigList = [:]
+        for (Map.Entry entry : map.entrySet()) {
+            def (name, value) = [entry.getKey(), entry.getValue()]
+            if (value instanceof Map) {
+                // 如果值是 Map 类型就加到结果 Map 中
+                namePrefix += (name + '.')
+                depConfigList.putAll(_getDepConfigByFilter(namePrefix, value, filter))
+                namePrefix -= (name + '.')
+                continue
+            }
+            def config = value as DepConfig
+            if (filter == null || filter.accept(namePrefix + name, config)) {
+                // 符合过滤条件就加到结果 Map 中
+                depConfigList.put(namePrefix + name, config)
+            }
+        }
+        return depConfigList
+    }
+
+    interface DepConfigFilter {
+        boolean accept(String name, DepConfig config);
     }
 
 }

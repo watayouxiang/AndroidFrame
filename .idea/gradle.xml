@@ -14,13 +14,10 @@
             <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/feature0" />
-            <option value="$PROJECT_DIR$/feature/feature0/app" />
             <option value="$PROJECT_DIR$/feature/feature0/export" />
             <option value="$PROJECT_DIR$/feature/feature0/pkg" />
             <option value="$PROJECT_DIR$/feature/feature1" />
-            <option value="$PROJECT_DIR$/feature/feature1/app" />
             <option value="$PROJECT_DIR$/feature/feature1/export" />
-            <option value="$PROJECT_DIR$/feature/feature1/pkg" />
             <option value="$PROJECT_DIR$/feature/launcher" />
             <option value="$PROJECT_DIR$/feature/launcher/app" />
             <option value="$PROJECT_DIR$/feature/mock" />
