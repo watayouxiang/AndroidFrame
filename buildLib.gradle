@@ -37,9 +37,8 @@ android {
 }
 
 dependencies {
-    if (project.name == 'pkg') {
-        // pkg 只依赖 export
-        // if module's name equals 'pkg', api all of export
+    if (project.name == 'pkg' || project.name == 'mock') {
+        // pkg 或者 mock 依赖于 export
         for (def entrySet : ConfigUtils.getApplyExports().entrySet()) {
             api entrySet.value.dep
         }

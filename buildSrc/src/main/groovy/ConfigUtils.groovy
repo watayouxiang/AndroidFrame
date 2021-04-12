@@ -125,8 +125,7 @@ class ConfigUtils {
      * 在 settings.gradle 中 根据 appConfig 和 pkgConfig 来 include 本地模块
      */
     private static includeModule(Settings settings) {
-        /*
-        include ':feature:launcher:app'
+        /*include ':feature:launcher:app'
         include ':feature:feature1:app'
         include ':feature:feature0:app'
         include ':feature:feature1:pkg'
@@ -134,14 +133,17 @@ class ConfigUtils {
         include ':feature:feature1:export'
         include ':feature:feature0:export'
         include ':lib:common'
-        include ':lib:base'
-         */
+        include ':lib:base'*/
 
         /*settings.include ':lib:base', ':lib:common',
                 ':feature:feature0:export', ':feature:feature1:export',
                 ':feature:feature0:pkg', ':feature:feature1:pkg',
                 ':feature:feature0:app', ':feature:feature1:app', ':feature:launcher:app'*/
 
+        // 是否应用 mock 的判断
+        if (Config.pkgConfig.isEmpty()) {
+            Config.depConfig.feature.mock.isApply = false
+        }
         def config = getDepConfigByFilter(new DepConfigFilter() {
             @Override
             boolean accept(String name, DepConfig config) {

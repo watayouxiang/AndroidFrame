@@ -68,6 +68,11 @@ dependencies {
     for (def entrySet : ConfigUtils.getApplyPkgs().entrySet()) {
         api entrySet.value.dep
     }
+
+    // app 只依赖 mock
+    if (Config.depConfig.feature.mock.isApply) {
+        api Config.depConfig.feature.mock.dep
+    }
 }
 
 
