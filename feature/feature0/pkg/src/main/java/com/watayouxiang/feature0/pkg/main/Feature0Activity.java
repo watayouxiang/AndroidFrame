@@ -9,7 +9,7 @@ import com.blankj.utilcode.util.ApiUtils;
 import com.blankj.utilcode.util.BusUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.watayouxiang.common.CommonTitleActivity;
-import com.watayouxiang.feature0.pkg.BusConifg;
+import com.watayouxiang.feature0.pkg.BusConfig;
 import com.watayouxiang.feature0.pkg.R;
 import com.watayouxiang.feature1.export.api.Feature1Api;
 import com.watayouxiang.feature1.export.bean.Feature1Param;
@@ -18,7 +18,7 @@ import com.watayouxiang.feature1.export.bean.Feature1Result;
 
 public class Feature0Activity extends CommonTitleActivity {
 
-    @BusUtils.Bus(tag = BusConifg.FEATURE0_SHOW_TOAST)
+    @BusUtils.Bus(tag = BusConfig.FEATURE0_SHOW_TOAST)
     public void showToast(String msg) {
         ToastUtils.showLong(msg);
     }
@@ -48,11 +48,13 @@ public class Feature0Activity extends CommonTitleActivity {
                 ToastUtils.showLong(result.getName());
             }
         });
+        // 注册 BusUtils
         BusUtils.register(this);
         findViewById(R.id.showBusToast).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BusUtils.post(BusConifg.FEATURE0_SHOW_TOAST, "show toast.");
+                // 使用 BusUtils
+                BusUtils.post(BusConfig.FEATURE0_SHOW_TOAST, "show toast.");
             }
         });
     }
@@ -65,6 +67,7 @@ public class Feature0Activity extends CommonTitleActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        // 注销 BusUtils
         BusUtils.unregister(this);
     }
 }

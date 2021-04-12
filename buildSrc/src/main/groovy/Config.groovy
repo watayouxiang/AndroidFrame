@@ -49,6 +49,7 @@ class Config {
                     gradle: new DepConfig("com.android.tools.build:gradle:3.6.4"),
                     kotlin: new DepConfig("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"),
                     api   : new DepConfig("com.blankj:api-gradle-plugin:1.2"),
+                    bus   : new DepConfig("com.blankj:bus-gradle-plugin:2.4"),
             ],
 
             // ====================
