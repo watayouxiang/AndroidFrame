@@ -9,9 +9,20 @@ import org.gradle.api.invocation.Gradle
 class ConfigUtils {
 
     // =============================================================================================
-    // hook 方式构建项目
+    // 根目录 build.gradle 的 buildscript 处构建项目
     // =============================================================================================
 
+    static init(Gradle gradle) {
+        generateDep(gradle)
+        addCommonGradle(gradle)
+        TaskDurationUtils.init(gradle)
+    }
+
+    // =============================================================================================
+    // settings.gradle 处构建项目
+    // =============================================================================================
+
+    @Deprecated
     static addBuildListener(Gradle g) {
         TaskDurationUtils.init(g)
 
@@ -54,7 +65,7 @@ class ConfigUtils {
             @Override
             void settingsEvaluated(Settings settings) {
                 GLog.d("settingsEvaluated")
-                includeModule(settings)
+                //includeModule(settings)
             }
 
             /**
@@ -66,40 +77,7 @@ class ConfigUtils {
                 GLog.d("projectsLoaded")
 
                 generateDep(gradle)
-
-                gradle.addProjectEvaluationListener(new ProjectEvaluationListener() {
-                    /**
-                     * 执行在各 module 的 build.gradle 之前
-                     * @param project
-                     */
-                    @Override
-                    void beforeEvaluate(Project project) {
-                        //GLog.d("beforeEvaluate")
-                        if (project.subprojects.isEmpty()) {// 定位到具体 project
-                            if (project.name == "app") {
-                                GLog.l(project.toString() + " applies buildApp.gradle")
-                                project.apply {
-                                    from "${project.rootDir.path}/buildApp.gradle"
-                                }
-                            } else {
-                                GLog.l(project.toString() + " applies buildLib.gradle")
-                                project.apply {
-                                    from "${project.rootDir.path}/buildLib.gradle"
-                                }
-                            }
-                        }
-                    }
-
-                    /**
-                     * 执行在各 module 的 build.gradle 之后
-                     * @param project
-                     * @param state
-                     */
-                    @Override
-                    void afterEvaluate(Project project, ProjectState state) {
-                        //GLog.d("afterEvaluate")
-                    }
-                })
+                addCommonGradle(gradle)
             }
 
             /**
@@ -129,6 +107,7 @@ class ConfigUtils {
     /**
      * 在 settings.gradle 中 根据 appConfig 和 pkgConfig 来 include 本地模块
      */
+    @Deprecated
     private static includeModule(Settings settings) {
         /*include ':feature:launcher:app'
         include ':feature:feature1:app'
@@ -189,10 +168,12 @@ class ConfigUtils {
     /**
      * 根据过滤器来获取 DepConfig
      */
-    static Map<String, DepConfig> getDepConfigByFilter(DepConfigFilter filter) {
+    @Deprecated
+    private static Map<String, DepConfig> getDepConfigByFilter(DepConfigFilter filter) {
         return _getDepConfigByFilter("", Config.depConfig, filter)
     }
 
+    @Deprecated
     private static _getDepConfigByFilter(String namePrefix, Map map, DepConfigFilter filter) {
         // 结果 Map
         def depConfigList = [:]
@@ -216,6 +197,46 @@ class ConfigUtils {
 
     interface DepConfigFilter {
         boolean accept(String name, DepConfig config);
+    }
+
+    // =============================================================================================
+    // project 添加公共的 gradle
+    // =============================================================================================
+
+    private static addCommonGradle(Gradle gradle) {
+        gradle.addProjectEvaluationListener(new ProjectEvaluationListener() {
+            /**
+             * 执行在各 module 的 build.gradle 之前
+             * @param project
+             */
+            @Override
+            void beforeEvaluate(Project project) {
+                //GLog.d("beforeEvaluate")
+                if (project.subprojects.isEmpty()) {// 定位到具体 project
+                    if (project.name == "app") {
+                        GLog.l(project.toString() + " applies buildApp.gradle")
+                        project.apply {
+                            from "${project.rootDir.path}/buildApp.gradle"
+                        }
+                    } else {
+                        GLog.l(project.toString() + " applies buildLib.gradle")
+                        project.apply {
+                            from "${project.rootDir.path}/buildLib.gradle"
+                        }
+                    }
+                }
+            }
+
+            /**
+             * 执行在各 module 的 build.gradle 之后
+             * @param project
+             * @param state
+             */
+            @Override
+            void afterEvaluate(Project project, ProjectState state) {
+                //GLog.d("afterEvaluate")
+            }
+        })
     }
 
     // =============================================================================================
