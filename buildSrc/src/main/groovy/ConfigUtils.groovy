@@ -13,6 +13,7 @@ class ConfigUtils {
     // =============================================================================================
 
     static addBuildListener(Gradle g) {
+        TaskDurationUtils.init(g)
         /*
         setting.gradle
         // 设置配置完成
