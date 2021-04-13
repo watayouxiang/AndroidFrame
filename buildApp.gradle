@@ -11,6 +11,8 @@ apply {
     }
 }
 
+configSigning()
+
 android {
     defaultConfig {
         applicationId Config.applicationId + suffix
@@ -69,4 +71,26 @@ dependencies {
 def getSuffix() {
     if (project.name == "feature_launcher_app") return ""
     return "." + project.name.substring("feature_".length(), project.name.length() - "_app".length())
+}
+
+def configSigning() {
+
+    File signPropertiesFile = file("${rootDir.path}/sign/keystore.properties")
+    if (!signPropertiesFile.exists()) return
+
+    GLog.d("${project.toString()} sign start...")
+    project.android {
+        Properties properties = new Properties()
+        properties.load(new FileInputStream(signPropertiesFile))
+        signingConfigs {
+            release {
+                storeFile new File(signPropertiesFile.getParent(), properties['keystore'])
+                storePassword properties['storePassword']
+                keyAlias properties['keyAlias']
+                keyPassword properties['keyPassword']
+            }
+        }
+        buildTypes.release.signingConfig signingConfigs.release
+    }
+    GLog.d("${project.toString()} sign end...")
 }
