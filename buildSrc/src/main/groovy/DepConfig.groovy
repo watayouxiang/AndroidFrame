@@ -1,3 +1,11 @@
+/**
+ * <pre>
+ *     author: blankj
+ *     blog  : http://blankj.com
+ *     time  : 2019/07/13
+ *     desc  :
+ * </pre>
+ */
 class DepConfig {
     boolean isApply  // 是否应用
     boolean useLocal // 是否使用本地的
@@ -42,6 +50,11 @@ class DepConfig {
         this.remotePath = remotePath
     }
 
+    void setPluginPath(String pluginPath) {
+        this.pluginPath = pluginPath
+        this.remotePath = pluginPath
+    }
+
     String getPath() {
         if (pluginPath != null) return pluginPath
         return useLocal ? localPath : remotePath
@@ -60,6 +73,10 @@ class DepConfig {
     String getVersion() {
         String[] splits = remotePath.split(":")
         return splits.length == 3 ? splits[2] : null
+    }
+
+    String getProjectPath() {
+        return ":" + localPath.substring(1).replace(":", "_")
     }
 
     @Override

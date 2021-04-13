@@ -22,11 +22,11 @@ class ConfigUtils {
     // settings.gradle 处构建项目
     // =============================================================================================
 
-    @Deprecated
+    /*@Deprecated
     static addBuildListener(Gradle g) {
         TaskDurationUtils.init(g)
 
-        /*setting.gradle
+        *//*setting.gradle
         // 设置配置完成
         settingsEvaluated
         // 项目加载完成
@@ -46,32 +46,32 @@ class ConfigUtils {
         // 项目评估完成
         projectsEvaluated
         // 构建结束
-        buildFinished*/
+        buildFinished*//*
 
         g.addBuildListener(new BuildListener() {
-            /**
+            *//**
              * 构建开始
              * @param gradle
-             */
+             *//*
             @Override
             void buildStarted(Gradle gradle) {
                 GLog.d("buildStarted")
             }
 
-            /**
+            *//**
              * 设置评估完成
              * @param settings
-             */
+             *//*
             @Override
             void settingsEvaluated(Settings settings) {
                 GLog.d("settingsEvaluated")
                 //includeModule(settings)
             }
 
-            /**
+            *//**
              * 项目加载完成
              * @param gradle
-             */
+             *//*
             @Override
             void projectsLoaded(Gradle gradle) {
                 GLog.d("projectsLoaded")
@@ -80,19 +80,19 @@ class ConfigUtils {
                 addCommonGradle(gradle)
             }
 
-            /**
+            *//**
              * 项目评估完成
              * @param gradle
-             */
+             *//*
             @Override
             void projectsEvaluated(Gradle gradle) {
                 GLog.d("projectsEvaluated")
             }
 
-            /**
+            *//**
              * 构建结束
              * @param buildResult
-             */
+             *//*
             @Override
             void buildFinished(BuildResult buildResult) {
                 GLog.d("buildFinished")
@@ -104,12 +104,12 @@ class ConfigUtils {
     // include module
     // =============================================================================================
 
-    /**
+    *//**
      * 在 settings.gradle 中 根据 appConfig 和 pkgConfig 来 include 本地模块
-     */
+     *//*
     @Deprecated
     private static includeModule(Settings settings) {
-        /*include ':feature:launcher:app'
+        *//*include ':feature:launcher:app'
         include ':feature:feature1:app'
         include ':feature:feature0:app'
         include ':feature:feature1:pkg'
@@ -117,12 +117,12 @@ class ConfigUtils {
         include ':feature:feature1:export'
         include ':feature:feature0:export'
         include ':lib:common'
-        include ':lib:base'*/
+        include ':lib:base'*//*
 
-        /*settings.include ':lib:base', ':lib:common',
+        *//*settings.include ':lib:base', ':lib:common',
                 ':feature:feature0:export', ':feature:feature1:export',
                 ':feature:feature0:pkg', ':feature:feature1:pkg',
-                ':feature:feature0:app', ':feature:feature1:app', ':feature:launcher:app'*/
+                ':feature:feature0:app', ':feature:feature1:app', ':feature:launcher:app'*//*
 
         // 是否应用 mock 的判断
         if (Config.pkgConfig.isEmpty()) {
@@ -165,9 +165,9 @@ class ConfigUtils {
         GLog.l("includeModule = ${GLog.object2String(config)}")
     }
 
-    /**
+    *//**
      * 根据过滤器来获取 DepConfig
-     */
+     *//*
     @Deprecated
     private static Map<String, DepConfig> getDepConfigByFilter(DepConfigFilter filter) {
         return _getDepConfigByFilter("", Config.depConfig, filter)
@@ -197,7 +197,7 @@ class ConfigUtils {
 
     interface DepConfigFilter {
         boolean accept(String name, DepConfig config);
-    }
+    }*/
 
     // =============================================================================================
     // project 添加公共的 gradle
@@ -212,8 +212,12 @@ class ConfigUtils {
             @Override
             void beforeEvaluate(Project project) {
                 //GLog.d("beforeEvaluate")
+                // 在 project 的 build.gradle 前 do sth.
                 if (project.subprojects.isEmpty()) {// 定位到具体 project
-                    if (project.name == "app") {
+                    if (project.path.startsWith(":plugin")) {
+                        return
+                    }
+                    if (project.name.endsWith("_app")) {
                         GLog.l(project.toString() + " applies buildApp.gradle")
                         project.apply {
                             from "${project.rootDir.path}/buildApp.gradle"
@@ -265,11 +269,11 @@ class ConfigUtils {
         def configs = [:]
         for (Map.Entry<String, DepConfig> entry : Config.depConfig.entrySet()) {
             def (name, config) = [entry.key, entry.value]
-            if (name.startsWith("plugin_")) {
+            if (entry.value.pluginPath) {
                 config.dep = config.pluginPath
             } else {
                 if (config.useLocal) {
-                    config.dep = gradle.rootProject.findProject(config.localPath)
+                    config.dep = gradle.rootProject.findProject(config.projectPath)
                 } else {
                     config.dep = config.remotePath
                 }
@@ -339,7 +343,7 @@ class ConfigUtils {
 
         def plugins = [:]
         for (Map.Entry<String, DepConfig> entry : Config.depConfig.entrySet()) {
-            if (entry.value.isApply && entry.key.startsWith("plugin_")) {
+            if (entry.value.isApply && entry.value.pluginPath) {
                 plugins.put(entry.key, entry.value)
             }
         }

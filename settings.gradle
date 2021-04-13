@@ -38,7 +38,9 @@ for (def pro in config.proConfig) {
     }
 
     if (pro.useLocal && pro.isApply) {
-        include pro.localPath
+        def projectPath = ":" + localPath.substring(1).replace(":", "_")
+        include projectPath
+        project(projectPath).projectDir = file(localPath.substring(1).replace(":", "/"))
     }
 }
 

@@ -78,6 +78,6 @@ dependencies {
 // 除了 launcher 以外，每个 applicationId 都是都是带有 feature 的模块名后缀的，
 // 具体方法就是 getSuffix()，方便我们在手机上同时装多个应用。
 def getSuffix() {
-    if (project.path == ":feature:launcher:app") return ""
-    return project.path.replace(":", "_").substring(":feature".length(), project.path.length() - ":app".length())
+    if (project.name == "feature_launcher_app") return ""
+    return "." + project.name.substring("feature_".length(), project.name.length() - "_app".length())
 }
